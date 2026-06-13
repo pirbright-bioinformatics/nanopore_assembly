@@ -13,7 +13,7 @@ git clone https://github.com/pirbright-bioinformatics/nanopore_assembly.git
 cd nanopore_assembly
 ```
 
-All required files will be available within the `nanopore_assembly` directory.
+All required pipeline files will be available within the `nanopore_assembly` directory.
 
 ***
 
@@ -83,25 +83,7 @@ barcode18,/absolute/path/to/reference.fasta
 Sample,Reference
 barcode17,/ephemeral/tennakoon/Shaw/pipeline/fasta/UKG-26-2022_EPI_final.fas
 barcode18,/ephemeral/tennakoon/Shaw/pipeline/fasta/UKG-26-2022_EPI_final.fas
-barcode19,/ephemeral/tennakoon/Shaw/pipeline/fasta/UKG-26-2022_EPI_final.fas
-barcode20,/ephemeral/tennakoon/Shaw/pipeline/fasta/UKG-26-2022_EPI_final.fas
-barcode21,/ephemeral/tennakoon/Shaw/pipeline/fasta/UKG-26-2022_EPI_final.fas
 ```
-
-***
-
-## Execution
-
-Once the configuration files are prepared, run the pipeline:
-
-```bash
-/path/to/nanopore_assembly/launch_pipeline.sh
-```
-
-Make sure that:
-
-* `config.yml` and `reference.csv` are correctly set up.
-* Paths are absolute and accessible.
 
 ***
 
@@ -120,12 +102,73 @@ output_directory/
 Each directory contains the results corresponding to that sample.
 
 ***
+## Suggested Workflow
+
+The pipeline code and configuration files do **not** need to be in the same location. A recommended approach is to create a dedicated analysis directory for each run, keeping inputs, configuration, and outputs organised in one place.
+
+### Example Setup
+
+1. Create a working directory for your analysis:
+
+```bash
+mkdir analysis
+cd analysis
+```
+
+2. Place your configuration files inside this directory:
+
+```
+analysis/
+├── config.yml
+├── reference.csv
+```
+
+3. Edit `config.yml` so that the `output_directory` points to your desired output location (typically within this analysis directory):
+
+```yaml
+output_directory: /absolute/path/to/analysis/output
+data_path: /absolute/path/to/nanopore/data
+```
+
+***
+
+### Running the Pipeline
+
+You **must** run the pipeline from the **directory where the configuration files are located**:
+
+```bash
+/path/to/nanopore_assembly/launch_pipeline.sh
+```
+
+This ensures the pipeline correctly detects `config.yml` and `reference.csv`.
+
+***
+
+### Example Directory Structure
+
+After setup and execution, your project may look like this:
+
+```
+analysis/
+├── config.yml
+├── reference.csv
+└── output/
+    ├── barcode17/
+    ├── barcode18/
+    ├── barcode19/
+    └── ...
+```
+
+***
+
 
 ## Summary
 
 1. Clone the repository
-2. Prepare `config.yml` and `reference.csv`
-3. Run `launch_pipeline.sh`
-4. Check outputs in your specified directory
+2. Create an analysis directory
+3. Add `config.yml` and `reference.csv`
+4. Run `launch_pipeline.sh` from the analysis directory
+5. Check outputs in your specified output directory
 
 ***
+
