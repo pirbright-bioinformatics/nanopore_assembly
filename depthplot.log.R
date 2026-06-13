@@ -1,0 +1,7 @@
+library(ggplot2)
+args <- commandArgs(trailingOnly = TRUE)
+depth<-read.table(paste0(args[1],"/depth.txt"),header=F)
+names(depth)<-c("Species","Pos","depth")
+png(paste0(args[1],"/depth.log.png"))
+ggplot(depth,aes(Pos,log(depth)))+geom_point(aes(colour=Species))+ggtitle(args[1])+theme(legend.position="top")
+dev.off()
